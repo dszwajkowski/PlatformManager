@@ -6,7 +6,7 @@ public class Platform
 {
     [Key]
     [Required]
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = new Guid();
     [Required]
     public string Name { get; set; } = null!;
     [Required]
