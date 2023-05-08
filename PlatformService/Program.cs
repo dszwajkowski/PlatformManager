@@ -20,6 +20,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    using (var serviceScope = app.Services.CreateScope())
+    {
+        var dbcontext = serviceScope.ServiceProvider.GetService<AppDbContext>();
+        ArgumentNullException.ThrowIfNull(dbcontext, nameof(dbcontext));
+        AppDbContextSeed.SeedData(dbcontext);
+    }
 }
 
 app.UseHttpsRedirection();
