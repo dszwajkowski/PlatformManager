@@ -30,7 +30,8 @@ if (app.Environment.IsDevelopment())
     }
 }
 
-app.UseHttpsRedirection();
+// temporarily disable https redirections
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
