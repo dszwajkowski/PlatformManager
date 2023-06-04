@@ -8,8 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8S", "K8S", "{4064ED2B-72A7-47C2-A40F-CFF8D4F8629F}"
 	ProjectSection(SolutionItems) = preProject
 		commands-deploy.yaml = commands-deploy.yaml
-		platforms-deploy.yaml = platforms-deploy.yaml
 		ingress-service.yaml = ingress-service.yaml
+		local-pvc.yaml = local-pvc.yaml
+		platforms-deploy.yaml = platforms-deploy.yaml
 		platforms-nodeport.yaml = platforms-nodeport.yaml
 	EndProjectSection
 EndProject
