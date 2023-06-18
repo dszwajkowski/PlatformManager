@@ -1,0 +1,20 @@
+{
+  "profiles": {
+    "PlatformService": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:57184;http://localhost:57185"
+    },
+    "PlatformService_Production": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      },
+      "applicationUrl": "https://localhost:57284;http://localhost:57285"
+    }
+  }
+}

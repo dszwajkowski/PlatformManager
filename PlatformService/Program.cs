@@ -10,24 +10,46 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("InMem"));
+if (builder.Environment.IsProduction())
+{
+    Console.WriteLine("Starting production environment.");
+    var connectionString = builder.Configuration.GetConnectionString("PlatformsDb") 
+            ?? throw new NullReferenceException("Connection string for production environment not specified."); 
+    Console.WriteLine($"Using connection string: {connectionString}");
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+}
+else
+{
+    Console.WriteLine("Starting development environment.");
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("InMem"));
+}
 builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+using (var serviceScope = app.Services.CreateScope())
+{
+    var dbcontext = serviceScope.ServiceProvider.GetService<AppDbContext>();
+    ArgumentNullException.ThrowIfNull(dbcontext, nameof(dbcontext));
+    
+    if (app.Environment.IsProduction())
+    {
+        dbcontext.Database.Migrate();
+    }
+
+    AppDbContextSeed.SeedData(dbcontext);
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    using (var serviceScope = app.Services.CreateScope())
-    {
-        var dbcontext = serviceScope.ServiceProvider.GetService<AppDbContext>();
-        ArgumentNullException.ThrowIfNull(dbcontext, nameof(dbcontext));
-        AppDbContextSeed.SeedData(dbcontext);
-    }
 }
 
 // temporarily disable https redirections
