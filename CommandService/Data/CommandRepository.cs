@@ -16,14 +16,17 @@ public class CommandRepository : ICommandRepository
         return _context.Platforms.AsEnumerable();
     }
 
-    public void CreatePlatform(Platform platform)
+    public Guid CreatePlatform(Platform platform)
     {
         ArgumentNullException.ThrowIfNull(platform);
+
         platform.Id = Guid.NewGuid();
         _context.Platforms.Add(platform);
+
+        return platform.Id;
     }
 
-    public bool PlatformExists(int platformId)
+    public bool PlatformExists(Guid platformId)
     {
         return _context.Platforms.Any();
     }
@@ -36,7 +39,7 @@ public class CommandRepository : ICommandRepository
             .FirstOrDefault();
     }
 
-    public void CreateCommand(Guid platformId, Command command)
+    public Guid CreateCommand(Guid platformId, Command command)
     {
         ArgumentNullException.ThrowIfNull(command);
 
@@ -44,9 +47,11 @@ public class CommandRepository : ICommandRepository
         command.PlatformId = platformId;
 
         _context.Commands.Add(command);
+
+        return command.Id;
     }
 
-    public IEnumerable<Models.Command> GetCommandsForPlatform(Guid platformId)
+    public IEnumerable<Command> GetCommandsForPlatform(Guid platformId)
     {
         return _context.Commands
             .Where(x => x.PlatformId == platformId);
