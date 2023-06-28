@@ -11,7 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8S", "K8S", "{4064ED2B-72A
 		ingress-service.yaml = ingress-service.yaml
 		local-pvc.yaml = local-pvc.yaml
 		platforms-deploy.yaml = platforms-deploy.yaml
+		platforms-mssql-deployment.yaml = platforms-mssql-deployment.yaml
 		platforms-nodeport.yaml = platforms-nodeport.yaml
+		rabbitmq-deployment.yaml = rabbitmq-deployment.yaml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandService", "CommandService\CommandService.csproj", "{F9364BF9-C6B9-40D6-94C7-8D50B905522F}"
