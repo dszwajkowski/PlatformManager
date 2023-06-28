@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformService.Data;
+using PlatformService.MessageBus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,7 @@ else
 }
 builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
+builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
 
 
 var app = builder.Build();

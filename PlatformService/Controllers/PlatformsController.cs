@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PlatformService.Data;
 using PlatformService.Dtos;
+using PlatformService.MessageBus;
 using PlatformService.Models;
 
 namespace PlatformService.Controllers;
@@ -12,11 +13,15 @@ public class PlatformsController : ControllerBase
 {
     private readonly IPlatformRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IMessageBusClient _messageBusClient;
 
-    public PlatformsController(IPlatformRepository repository, IMapper mapper)
+    public PlatformsController(IPlatformRepository repository, 
+        IMapper mapper,
+        IMessageBusClient messageBusClient)
     {
         _repository = repository;
         _mapper = mapper;
+        _messageBusClient = messageBusClient;
     }
 
     [HttpGet]
@@ -47,6 +52,18 @@ public class PlatformsController : ControllerBase
         {
             return BadRequest();
         }
+
+        try
+        {
+            var platformPublishedDto = _mapper.Map<PlatformPublishedDto>(platform);
+            platformPublishedDto.Event = "Platform_Published";
+            _messageBusClient.PublishNewPlatform(platformPublishedDto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Could not send message: {e.Message}.");
+        }
+
         return Ok(platform);
     }
 }
