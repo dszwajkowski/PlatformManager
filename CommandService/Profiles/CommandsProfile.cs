@@ -12,5 +12,6 @@ public class CommandsProfile : Profile
         CreateMap<Command, CommandReadDto>();
         CreateMap<CommandCreateDto, Command>(); 
         CreateMap<PlatformCreateDto, Platform>();
+        CreateMap<PlatformPublishedDto, Platform>();
     }
 }
