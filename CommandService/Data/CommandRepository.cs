@@ -28,7 +28,7 @@ public class CommandRepository : ICommandRepository
 
     public bool PlatformExists(Guid platformId)
     {
-        return _context.Platforms.Any();
+        return _context.Platforms.Any(x => x.Id == platformId);
     }
 
     public Command? GetCommand(Guid platformId, Guid commandId)
